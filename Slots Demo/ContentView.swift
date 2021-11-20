@@ -13,7 +13,8 @@ struct ContentView: View {
     @State private var symbols = ["apple", "star", "cherry"]
     @State private var numbers = Array(repeating: 0, count: 9)
     @State private var backgrounds = Array(repeating: Color.white, count: 9)
-    @State private var credits = 1000
+    @State private var credits = 250
+    @State private var overMassage = "SwiftUI Slots"
     private var betAmount = 5
     
     var body: some View {
@@ -39,7 +40,7 @@ struct ContentView: View {
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)
                     
-                    Text("SwiftUI Slots")
+                    Text(overMassage)
                         .bold()
                         .foregroundColor(.white)
                     
@@ -205,14 +206,30 @@ struct ContentView: View {
         if matches > 0 {
             // At least 1 win
             self.credits += matches * betAmount * 2
+            overMassage = "Let's Go"
         }
         else if !isMax {
             // 0 wins, single spin
             self.credits -= betAmount
+            if  self.credits < 0 {
+                credits = 250
+                overMassage = "Game Over"
+            }
+            else {
+                overMassage = "Let's Go"
+            }
+                  
         }
         else {
             // 0 wins, max spin
             self.credits -= betAmount * 5
+            if  self.credits < 0 {
+                credits = 250
+                overMassage = "Game Over"
+            }
+            else {
+                overMassage = "Let's Go"
+            }
         }
     }
     
